@@ -15,20 +15,29 @@ Auth.js (Credentials provider, role-based access), Paystack for payments.
    npm install
    ```
 
-2. **Database (Supabase)**
+2. **Database (Neon)**
 
-   Create a free project at [supabase.com](https://supabase.com), then go to
-   **Connect → ORM** and copy the Prisma connection strings. Set them in `.env`
-   (copy `.env.example` first):
+   Create a free project at [neon.tech](https://neon.tech) (or via Vercel's Storage tab, which
+   provisions a Neon-backed Postgres and links it to your project automatically). Skip "Neon
+   Auth" if offered — this app has its own Auth.js setup. Copy the connection string, then build
+   two variants for `.env` (copy `.env.example` first):
 
    ```
-   DATABASE_URL="postgresql://...:6543/postgres?pgbouncer=true&connection_limit=10"
-   DIRECT_URL="postgresql://...:5432/postgres"
+   DATABASE_URL="postgresql://user:pass@ep-xxxx-pooler.region.aws.neon.tech/neondb?sslmode=require&channel_binding=require&pgbouncer=true&connection_limit=10"
+   DIRECT_URL="postgresql://user:pass@ep-xxxx.region.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
    ```
+
+   The only difference is `DIRECT_URL` drops `-pooler` from the hostname (and the pgbouncer/
+   connection_limit params) — Prisma Migrate needs the unpooled connection since PgBouncer's
+   transaction mode doesn't support the session-level features migrations rely on.
 
    > `connection_limit` is Prisma's own client-side pool size, not the pgbouncer pool. Keep it
    > above 1 — a single connection serializes every query in the process, so any page issuing
    > parallel queries (`Promise.all`) will queue behind itself and time out.
+   >
+   > Unlike some free-tier Postgres hosts, Neon's free tier only auto-suspends the *compute*
+   > after a few minutes of inactivity — it wakes itself automatically on the next request
+   > (~1s cold start), so it's safe to leave running unattended in production.
 
    Run the migration and seed data:
 
