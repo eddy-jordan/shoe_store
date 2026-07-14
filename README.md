@@ -38,8 +38,8 @@ Auth.js (Credentials provider, role-based access), Paystack for payments.
    ```
 
    This seeds 3 categories, 8 products with sizes/stock, and two test accounts:
-   - Admin: `admin@shoestore.test` / `Admin123!`
-   - Customer: `customer@shoestore.test` / `Customer123!`
+   - Admin: `admin@stride-shoes.com` / `Admin123!`
+   - Customer: `customer@stride-shoes.com` / `Customer123!`
 
 3. **Auth**
 
@@ -63,6 +63,9 @@ Auth.js (Credentials provider, role-based access), Paystack for payments.
    (e.g. `cloudflared tunnel --url http://localhost:3000` or `ngrok http 3000`) and register the
    tunnel's `/api/paystack/webhook` URL in the Paystack test-mode dashboard. Use the test card
    `4084 084084 084081` (any future expiry, any CVV) to complete a payment.
+
+   > Paystack's email validator rejects reserved TLDs like `.test` ("Invalid Email Address
+   > Passed") — use a normal-looking domain for any account that will check out.
 
 5. **Run the app**
 
