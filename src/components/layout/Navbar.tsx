@@ -1,10 +1,9 @@
-"use client";
-
 import Link from "next/link";
-import { useCartStore } from "@/store/cart-store";
+import { auth, signOut } from "@/auth";
+import { CartBadge } from "./CartBadge";
 
-export function Navbar() {
-  const itemCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
+export async function Navbar() {
+  const session = await auth();
 
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/90 backdrop-blur">
@@ -20,19 +19,45 @@ export function Navbar() {
           <Link href="/products" className="hover:text-zinc-900">
             Shop
           </Link>
+          {session?.user && (
+            <Link href="/orders" className="hover:text-zinc-900">
+              My Orders
+            </Link>
+          )}
+          {session?.user.role === "ADMIN" && (
+            <Link href="/admin" className="hover:text-zinc-900">
+              Admin
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-4">
+          {session?.user ? (
+            <form
+              action={async () => {
+                "use server";
+                await signOut({ redirectTo: "/" });
+              }}
+            >
+              <button
+                type="submit"
+                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+              >
+                Sign out
+              </button>
+            </form>
+          ) : (
+            <Link href="/login" className="text-sm font-medium text-zinc-600 hover:text-zinc-900">
+              Sign in
+            </Link>
+          )}
+
           <Link
             href="/cart"
             className="flex items-center gap-1.5 rounded-full border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-900 hover:text-zinc-900"
           >
             Cart
-            {itemCount > 0 && (
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-zinc-900 text-xs font-semibold text-white">
-                {itemCount}
-              </span>
-            )}
+            <CartBadge />
           </Link>
         </div>
       </div>
