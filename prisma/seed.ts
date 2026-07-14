@@ -139,10 +139,10 @@ async function main() {
 
   const adminPasswordHash = await hashPassword("Admin123!");
   await prisma.user.upsert({
-    where: { email: "admin@shoestore.test" },
+    where: { email: "admin@stride-shoes.com" },
     update: {},
     create: {
-      email: "admin@shoestore.test",
+      email: "admin@stride-shoes.com",
       name: "Store Admin",
       passwordHash: adminPasswordHash,
       role: "ADMIN",
@@ -151,10 +151,10 @@ async function main() {
 
   const customerPasswordHash = await hashPassword("Customer123!");
   await prisma.user.upsert({
-    where: { email: "customer@shoestore.test" },
+    where: { email: "customer@stride-shoes.com" },
     update: {},
     create: {
-      email: "customer@shoestore.test",
+      email: "customer@stride-shoes.com",
       name: "Test Customer",
       passwordHash: customerPasswordHash,
       role: "CUSTOMER",
@@ -162,8 +162,8 @@ async function main() {
   });
 
   console.log("Seed complete.");
-  console.log("Admin login: admin@shoestore.test / Admin123!");
-  console.log("Customer login: customer@shoestore.test / Customer123!");
+  console.log("Admin login: admin@stride-shoes.com / Admin123!");
+  console.log("Customer login: customer@stride-shoes.com / Customer123!");
 }
 
 main()
