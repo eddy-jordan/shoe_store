@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductFilters } from "@/components/product/ProductFilters";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const ALL_SIZES = ["40", "41", "42", "43", "44", "45"];
 
@@ -42,16 +43,17 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         <p className="mt-16 text-center text-zinc-500">No shoes match those filters yet.</p>
       ) : (
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              slug={product.slug}
-              name={product.name}
-              brand={product.brand}
-              priceKobo={product.priceKobo}
-              imageUrl={product.imageUrl}
-              inStock={product.variants.some((v) => v.stock > 0)}
-            />
+          {products.map((product, index) => (
+            <ScrollReveal key={product.id} delay={(index % 4) * 80}>
+              <ProductCard
+                slug={product.slug}
+                name={product.name}
+                brand={product.brand}
+                priceKobo={product.priceKobo}
+                imageUrl={product.imageUrl}
+                inStock={product.variants.some((v) => v.stock > 0)}
+              />
+            </ScrollReveal>
           ))}
         </div>
       )}
