@@ -53,9 +53,15 @@ export async function Navbar() {
 
           <Link
             href="/cart"
-            className="flex items-center gap-1.5 rounded-full border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-900 hover:text-zinc-900"
+            aria-label="Cart"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 text-zinc-700 transition-colors hover:border-zinc-900 hover:text-zinc-900"
           >
-            Cart
+            <svg viewBox="0 0 24 24" className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h15l-1.5 9h-12L6 6Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 6 5 3H3" />
+              <circle cx="9.5" cy="19.5" r="1.5" fill="currentColor" stroke="none" />
+              <circle cx="17.5" cy="19.5" r="1.5" fill="currentColor" stroke="none" />
+            </svg>
             <CartBadge />
           </Link>
 
