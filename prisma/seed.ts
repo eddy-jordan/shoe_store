@@ -80,7 +80,7 @@ const products = [
     description: "Race-day sneaker built for speed, at a featherlight weight.",
     priceKobo: 4_900_000,
     imageUrl:
-      "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?auto=format&fit=crop&w=800&q=80",
     category: "running",
   },
   {
@@ -111,7 +111,14 @@ async function main() {
 
     await prisma.product.upsert({
       where: { slug: product.slug },
-      update: {},
+      update: {
+        name: product.name,
+        brand: product.brand,
+        description: product.description,
+        priceKobo: product.priceKobo,
+        imageUrl: product.imageUrl,
+        categoryId: category.id,
+      },
       create: {
         name: product.name,
         slug: product.slug,
