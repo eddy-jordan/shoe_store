@@ -35,3 +35,21 @@ export async function markOrderFailed(reference: string) {
     data: { status: "FAILED" },
   });
 }
+
+/**
+ * Orders left PENDING (checkout started, Paystack never confirmed success or failure -
+ * e.g. the customer closed the tab) would otherwise sit as PENDING forever, since nothing
+ * else transitions them out of that state. Sweeping them to FAILED after a grace period
+ * keeps the order list honest; stock was never decremented for PENDING orders so there's
+ * nothing to restore.
+ */
+export async function expireStalePendingOrders(olderThanHours = 1) {
+  const cutoff = new Date(Date.now() - olderThanHours * 60 * 60 * 1000);
+
+  const result = await prisma.order.updateMany({
+    where: { status: "PENDING", createdAt: { lt: cutoff } },
+    data: { status: "FAILED" },
+  });
+
+  return result.count;
+}
