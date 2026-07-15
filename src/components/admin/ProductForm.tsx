@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { ImageUploadField } from "./ImageUploadField";
 
 const SIZES = ["40", "41", "42", "43", "44", "45"];
 
@@ -152,36 +153,23 @@ export function ProductForm({ categories, productId, initial }: ProductFormProps
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="price" className="text-sm font-medium text-zinc-700">
-            Price (NGN)
-          </label>
-          <input
-            id="price"
-            type="number"
-            min={0}
-            step="1"
-            required
-            value={priceNaira}
-            onChange={(e) => setPriceNaira(e.target.value)}
-            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none"
-          />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="imageUrl" className="text-sm font-medium text-zinc-700">
-            Image URL
-          </label>
-          <input
-            id="imageUrl"
-            type="url"
-            required
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none"
-          />
-        </div>
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="price" className="text-sm font-medium text-zinc-700">
+          Price (NGN)
+        </label>
+        <input
+          id="price"
+          type="number"
+          min={0}
+          step="1"
+          required
+          value={priceNaira}
+          onChange={(e) => setPriceNaira(e.target.value)}
+          className="rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none"
+        />
       </div>
+
+      <ImageUploadField value={imageUrl} onChange={setImageUrl} />
 
       <div>
         <p className="mb-2 text-sm font-medium text-zinc-700">Stock by size (EU)</p>

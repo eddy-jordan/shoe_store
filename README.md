@@ -88,7 +88,15 @@ Auth.js (Credentials provider, role-based access), Paystack for payments.
    - run: curl -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://yourdomain.com/api/cron/expire-orders
    ```
 
-6. **Run the app**
+6. **Product images (Vercel Blob)**
+
+   The admin product form uploads images to Vercel Blob rather than storing files on the server
+   (Vercel's filesystem is ephemeral, so anything saved locally would vanish between deploys).
+   Create a Blob store from your Vercel project's **Storage** tab, copy its read/write token into
+   `.env` as `BLOB_READ_WRITE_TOKEN`. On Vercel this is auto-injected once the store is linked to
+   the project; for local dev you need to set it yourself.
+
+7. **Run the app**
 
    ```sh
    npm run dev

@@ -4,11 +4,11 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { comparePassword } from "@/lib/password";
 import { loginSchema } from "@/lib/validation/auth";
+import { authConfig } from "./auth.config";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
-  pages: { signIn: "/login" },
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },
@@ -26,17 +26,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt: async ({ token, user }) => {
-      if (user) token.role = user.role;
-      return token;
-    },
-    session: async ({ session, token }) => {
-      if (session.user) {
-        session.user.id = token.sub!;
-        session.user.role = token.role;
-      }
-      return session;
-    },
-  },
 });
