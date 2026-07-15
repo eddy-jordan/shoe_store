@@ -16,7 +16,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
         <Image src={item.imageUrl} alt={item.name} fill className="object-cover" sizes="96px" />
       </div>
 
-      <div className="flex flex-1 flex-col justify-between">
+      <div className="flex min-w-0 flex-1 flex-col justify-between">
         <div>
           <Link href={`/products/${item.slug}`} className="font-semibold text-zinc-900 hover:underline">
             {item.name}
@@ -24,12 +24,12 @@ export function CartItemRow({ item }: { item: CartItem }) {
           <p className="text-sm text-zinc-500">Size EU {item.size}</p>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => updateQuantity(item.variantId, Math.max(1, item.quantity - 1))}
-              className="h-8 w-8 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-900 hover:text-zinc-900"
+              className="h-8 w-8 shrink-0 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-900 hover:text-zinc-900"
             >
               −
             </button>
@@ -37,20 +37,20 @@ export function CartItemRow({ item }: { item: CartItem }) {
             <button
               type="button"
               onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-              className="h-8 w-8 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-900 hover:text-zinc-900"
+              className="h-8 w-8 shrink-0 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-900 hover:text-zinc-900"
             >
               +
             </button>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="font-semibold text-zinc-900">
+          <div className="flex items-center gap-3">
+            <span className="font-semibold whitespace-nowrap text-zinc-900">
               {formatNaira(item.unitPriceKobo * item.quantity)}
             </span>
             <button
               type="button"
               onClick={() => removeItem(item.variantId)}
-              className="text-sm text-zinc-400 hover:text-red-600"
+              className="text-sm whitespace-nowrap text-zinc-400 hover:text-red-600"
             >
               Remove
             </button>
