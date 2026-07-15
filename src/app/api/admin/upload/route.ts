@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { auth } from "@/auth";
@@ -26,9 +27,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Image must be under 5MB" }, { status: 400 });
   }
 
-  const blob = await put(`products/${crypto.randomUUID()}-${file.name}`, file, {
-    access: "public",
-  });
+  try {
+    const blob = await put(`products/${randomUUID()}-${file.name}`, file, {
+      access: "public",
+    });
 
-  return NextResponse.json({ url: blob.url });
+    return NextResponse.json({ url: blob.url });
+  } catch (err) {
+    console.error("Blob upload failed:", err);
+    return NextResponse.json({ error: "Upload failed. Please try again." }, { status: 500 });
+  }
 }
