@@ -1,8 +1,23 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product/ProductCard";
-import { ParallaxImage } from "@/components/ui/ParallaxImage";
+import { HeroSlideshow } from "@/components/ui/HeroSlideshow";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+
+const HERO_SLIDES = [
+  {
+    src: "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=1600&q=80",
+    alt: "Sneakers dangling above a city street",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1600&q=80",
+    alt: "White sneaker mid-stride on a city road",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=1600&q=80",
+    alt: "Sneakers dramatically lit against a dark background",
+  },
+];
 
 export default async function Home() {
   const featured = await prisma.product.findMany({
@@ -15,11 +30,7 @@ export default async function Home() {
   return (
     <div>
       <section className="relative h-[70vh] min-h-[420px] w-full overflow-hidden">
-        <ParallaxImage
-          src="https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=1600&q=80"
-          alt="Sneakers dangling above a city street"
-          speed={0.25}
-        />
+        <HeroSlideshow slides={HERO_SLIDES} intervalMs={5000} parallaxSpeed={0.25} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
         <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col items-start justify-end gap-6 px-4 pb-16 sm:px-6">
           <h1 className="max-w-xl text-5xl font-bold tracking-tight text-white">
