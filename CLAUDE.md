@@ -88,6 +88,11 @@ features migrations need).
 `src/components/legal/LegalLayout.tsx`) are starter templates flagged as not legal advice — don't
 present them as complete/compliant without review.
 
+**Motion effects check `prefers-reduced-motion` and disable themselves, not just soften.**
+`HeroSlideshow` (crossfade + parallax drift) and `ScrollReveal` (fade-in-on-scroll) both skip
+their `useEffect`-driven animation entirely under reduced motion rather than just shortening
+durations. Follow the same pattern for any new scroll/timer-driven effect.
+
 **Known deferred work** (see README "Known gaps"): Paystack is in test mode, no transactional
 emails (order confirmation, password reset, signup verification) — both deferred until there's a
 paying client, since they need a live payment account and an email-sending service respectively.
